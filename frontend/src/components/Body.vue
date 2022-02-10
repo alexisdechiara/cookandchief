@@ -1,9 +1,7 @@
 <template lang="html">
-
-  <section id="body" class="flex flex-col h-100 flex-grow">
+  <section id="body" class="h-100 flex flex-grow flex-col">
     <router-view></router-view>
   </section>
-
 </template>
 
 <script lang="js">
@@ -12,6 +10,4 @@
     name: 'body',
     props: [],
 }
-
 </script>
-
