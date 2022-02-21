@@ -1,5 +1,6 @@
 // index.js
 const PORT = process.env.PORT || 1337 // this is very important
+const cors = require('cors')
 
 const express = require('express')
 const app = express()
@@ -21,6 +22,8 @@ const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: secret
 }
+
+app.use(cors())
 
 passport.use(
     new JwtStrategy(jwtOptions, async function(payload, next) {
@@ -59,6 +62,7 @@ app.get('/register', (req, res) => {
 })
 
 app.post('/login', async(req, res) => {
+
   const email = req.body.email
   const password = req.body.password
 

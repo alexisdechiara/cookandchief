@@ -34,6 +34,7 @@
         <div
           class="collapse navbar-collapse flex-grow items-center"
           id="navbarSupportedContent"
+          v-if="isConnected"
         >
           <router-link
             class="mt-2 mr-1 flex items-center text-gray-900 hover:text-gray-900 focus:text-gray-900 lg:mt-0"
@@ -58,7 +59,7 @@
             <li class="nav-item p-2">
               <router-link
                 class="nav-link p-0 text-gray-500 hover:text-gray-700 focus:text-gray-700"
-                href="/recipes"
+                to="/recipes"
                 >Recettes</router-link
               >
             </li>
@@ -69,7 +70,7 @@
 
         <!-- Right elements -->
         <div class="relative flex items-center">
-          <ul class="navbar-nav list-style-none mr-auto flex flex-col pl-0">
+          <ul class="navbar-nav list-style-none mr-auto flex flex-col pl-0" v-if="!isConnected">
             <li class="nav-item p-2 pr-0">
               <router-link
                 class="nav-link p-0 text-gray-500 hover:text-gray-700 focus:text-gray-700"
@@ -86,7 +87,7 @@
             </li>
           </ul>
           <!-- Icon -->
-          <div class="dropdown relative">
+          <div class="dropdown relative" v-else>
             <a
               class="dropdown-toggle hidden-arrow flex items-center"
               href="#"
@@ -142,5 +143,10 @@
   export default  {
     name: 'header',
     props: [],
+    computed : {
+      isConnected () {
+        return this.$store.state.jwt;
+      }
+    }
 }
 </script>
