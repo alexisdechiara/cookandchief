@@ -41,8 +41,12 @@ app.use(passport.initialize())
 
 app.use(express.json())
 
-app.get('/', async (req, res) => {
+app.get('/recipes', async (req, res) => {
   res.send(await getRecipes().then(e => {return e}))
+})
+
+app.get('/recipe/:id', async (req, res) => {
+  res.send(await getRecipe(req.params.id).then(e => {return e}))
 })
 
 app.get('/public', (req, res) => {
@@ -72,7 +76,6 @@ app.post('/login', async(req, res) => {
   }
 
   const user = await getUsers().then(users => { return users.find(user => user.email === email)});
-  console.log(user)
 
   if (!user || user.password !== password) {
     res.status(401).json({ error: 'Email / password do not match.' })
@@ -81,7 +84,7 @@ app.post('/login', async(req, res) => {
 
   const userJwt = jwt.sign({ email: user.email }, secret)
 
-  res.json({ jwt: userJwt })
+  res.json({ jwt: userJwt, user : user})
 })
 
 app.listen(PORT, function () {
@@ -106,6 +109,10 @@ function postRecipe(name, ingredients, method, user) {
 
 async function getRecipes() {
   return await axios.get('recipes').then(res => {return res.data}).catch((e => console.error(e)))
+}
+
+async function getRecipe(id) {
+  return await axios.get('recipes/' + id).then(res => {return res.data}).catch((e => console.error(e)))
 }
 
 async function getIngredients() {

@@ -1,10 +1,14 @@
 <component name="InspectionProjectProfileManager">
   <profile version="1.0">
     <option name="myName" value="Project Default" />
+    <inspection_tool class="HtmlNonExistentInternetResource" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="HtmlPresentationalElement" enabled="true" level="INFORMATION" enabled_by_default="true" />
+    <inspection_tool class="HtmlRequiredSummaryAttribute" enabled="true" level="INFORMATION" enabled_by_default="true" />
+    <inspection_tool class="HtmlRequiredTitleAttribute" enabled="true" level="INFORMATION" enabled_by_default="true" />
     <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="9">
+          <list size="10">
             <item index="0" class="java.lang.String" itemvalue="nobr" />
             <item index="1" class="java.lang.String" itemvalue="noembed" />
             <item index="2" class="java.lang.String" itemvalue="comment" />
@@ -14,10 +18,13 @@
             <item index="6" class="java.lang.String" itemvalue="body" />
             <item index="7" class="java.lang.String" itemvalue="router-link" />
             <item index="8" class="java.lang.String" itemvalue="router-view" />
+            <item index="9" class="java.lang.String" itemvalue="contenteditable" />
           </list>
         </value>
       </option>
       <option name="myCustomValuesEnabled" value="true" />
     </inspection_tool>
+    <inspection_tool class="SassLintInspection" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="SassScssLintInspection" enabled="true" level="WARNING" enabled_by_default="true" />
   </profile>
 </component>
