@@ -5,11 +5,9 @@
     <div class="text-gray-600 body-font overflow-hidden">
       <div class="container px-5 py-16 mx-auto">
         <div class="divide-y-2 divide-gray-100">
-          <div class="py-8 flex flex-wrap md:flex-nowrap" v-for="recipe in recipes" :key="recipe.id">
-            <div class="h-64 object-contain w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
-              <img :src="recipe.image ? recipe.image : 'https://via.placeholder.com/900'" alt="">
-            </div>
-            <div class="md:flex-grow p-8">
+          <div class="py-8 flex flex-wrap items-center md:flex-nowrap" v-for="recipe in recipes" :key="recipe.id">
+            <img class="h-48 object-contain w-64 md:mb-0 flex-shrink-0 flex flex-col aspect-square" :src="recipe.image ? recipe.image : 'https://via.placeholder.com/900'" :alt="recipe.name">
+            <div class="md:flex-grow p-4">
               <h2 class="text-2xl font-medium text-gray-900 capitalize title-font mb-2">{{recipe.name}}</h2>
               <p class="leading-relaxed">{{recipe.description}}</p>
               <router-link :to="{ name: 'Recipe', params: { id: recipe._id }}" class="text-yellow-500 inline-flex items-center mt-4">Learn More
@@ -36,7 +34,7 @@
         recipes : []
       }
     },
-    created() {
+    mounted() {
       if(!this.$store.state.jwt) {
         console.log("Not connected");
         this.$router.push('/login');

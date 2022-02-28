@@ -12,18 +12,18 @@
     <contenteditable tag="div" class="w-full max-w-none mt-8 p-4" :class="isEditable ? 'cursor-pointer' : 'cursor-auto'	" :contenteditable="isEditable" v-model="recipe.ingredients" :noNL="true"/>
     <contenteditable tag="div" class="w-full max-w-none mt-8 p-4 rounded-xl bg-slate-50 prose prose-slate prose-headings:block prose-headings:text-indigo-500" :class="isEditable ? 'cursor-pointer' : 'cursor-auto'	" :contenteditable="isEditable" v-model="recipe.steps"/>
     <div class="fixed bottom-0 right-0 m-8" :class="isEditable ? 'cursor-pointer' : 'cursor-auto'	" v-if="isCreator">
-      <button type="button" class="inline-flex items-center rounded-full px-2 mr-1 bg-red-600 text-white leading-normal uppercase shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out w-12 h-12">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 mx-auto" viewBox="0 0 20 20" fill="currentColor">
+      <button type="button" v-on:click="deleteRecipe" data-mdb-ripple="true" data-mdb-ripple-color="light" class="inline-flex items-center rounded-full px-2 mr-1 bg-red-600 text-white leading-normal uppercase shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out w-10 h-10">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 mx-auto" viewBox="0 0 20 20" fill="currentColor">
           <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
         </svg>
       </button>
-      <button type="button" v-on:click="isEditable = !isEditable" class="inline-flex flex-row items-center rounded-full px-4 ml-1 bg-blue-600 text-white leading-normal uppercase shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out h-12">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-8" viewBox="0 0 20 20" fill="currentColor">
+      <button type="button" v-on:click="editRecipe" data-mdb-ripple="true" data-mdb-ripple-color="light" class="inline-flex flex-row items-center rounded-full px-4 ml-1 bg-blue-600 text-white leading-normal uppercase shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out h-10">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6" viewBox="0 0 20 20" fill="currentColor">
           <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
           <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />
         </svg>
-        <span v-if="!isEditable">Modifier</span>
-        <span v-else>Sauvegarder</span>
+        <span class="w-20 px-1 text-sm" v-if="!isEditable">Modifier</span>
+        <span class="w-20 px-1 text-xs" v-else>Sauvegarder</span>
       </button>
     </div>
   </section>
@@ -31,26 +31,25 @@
 
 <script>
   import contenteditable from 'vue-contenteditable'
-  export default  {
+  import recipeDao from '../api/recipeDao.js'
+  export default {
     name: 'Recipe',
     components: contenteditable,
     props: [],
     data() {
       return {
-        recipe : {},
+        recipe: {},
         user: {},
         isCreator: false,
         isEditable: false,
       }
     },
-    created() {
-      if(!this.$store.state.jwt) {
-        console.log("Not connected");
+    mounted() {
+      if (!this.$store.state.jwt) {
         this.$router.push('/login');
       } else {
         this.$store.dispatch("setCurrentRecipe", this.$route.params.id).then(e => {
               if (e) {
-                console.log("Recettes récupérés");
                 this.recipe = this.$store.getters['currentRecipe'];
                 this.user = this.$store.getters['user'];
                 this.isCreator = this.checkCreator();
@@ -66,7 +65,15 @@
         let creator = this.recipe['created by'];
         return creator[0]._id === this.user._id;
       },
+      deleteRecipe() {
+        recipeDao.remove(this.recipe._id).then(this.$router.push('/').catch(e => console.error(e)))
+      },
+      editRecipe() {
+        if(this.isEditable)
+          recipeDao.update(this.recipe._id, this.recipe).then(this.isEditable = false).catch(e => console.error(e))
+      else
+          this.isEditable = true
+      }
     }
-}
-
+  }
 </script>

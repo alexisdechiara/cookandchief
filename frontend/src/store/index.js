@@ -1,19 +1,20 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import axios from "axios";
+import VuexPersist from 'vuex-persist'
+
+import recipeDao from "../api/recipeDao.js"
+import userDao from "../api/userDao.js"
 
 Vue.use(Vuex);
 
-export const api = axios.create({
-  baseURL: "http://localhost:1337/",
-  headers: {
-    'Content-type': 'application/json'
-  }
+const vuexPersist = new VuexPersist({
+  storage: window.localStorage
 })
 
 export default new Vuex.Store({
+  plugins: [vuexPersist.plugin],
   state: {
-    jwt : '',
+    jwt : null,
     recipes : [],
     currentRecipe: {},
     user: {}
@@ -34,18 +35,23 @@ export default new Vuex.Store({
   },
   actions: {
     connectUser({commit}, user) {
-            return api.post("/login", user)
-            .then((response) => {
-              commit("updateJwt", response.data.jwt);
-              commit("updateUser", response.data.user);
-              return true;
-            })
-            .catch((errors) => {
-              return false;
-            })
+      return userDao.login(user)
+      .then((response) => {
+        commit("updateJwt", response.data.jwt);
+        commit("updateUser", response.data.user);
+        return true;
+      })
+      .catch((errors) => {
+        console.error(errors)
+        return false;
+      })
+    },
+    disconnectUser({commit}) {
+        commit("updateJwt", null);
+        commit("updateUser", {});
     },
     setRecipes({commit}) {
-      return api.get("/recipes")
+      return recipeDao.findAll()
       .then((response) => {
         commit("updateRecipes", response.data);
         return true;
@@ -55,7 +61,7 @@ export default new Vuex.Store({
       })
     },
     setCurrentRecipe({commit},id) {
-      return api.get("/recipe/" + id)
+      return recipeDao.findOne(id)
       .then((response) => {
         commit("updateCurrentRecipe", response.data);
         return true;
