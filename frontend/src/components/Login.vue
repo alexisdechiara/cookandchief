@@ -1,38 +1,35 @@
 <template>
-  <div class="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <div class="w-full max-w-md space-y-8">
-      <div>
-        <img class="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow"/>
-        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Connexion</h2>
-        <p class="mt-2 text-center text-sm text-gray-600">
-          Ou {{ " " }}
-          <router-link to="/register" class="font-medium text-indigo-600 hover:text-indigo-500">inscription ?</router-link>
-        </p>
+  <div class="w-full flex flex-wrap">
+
+    <!-- Login Section -->
+    <div class="w-full md:w-1/2 flex flex-col">
+
+      <div class="flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32">
+        <p class="text-center text-4xl font-bold mt-8">Connexion</p>
+        <form class="flex flex-col pt-3 md:pt-8" v-on:submit="login" method="POST">
+
+          <div class="flex flex-col pt-4">
+            <label for="email" class="form-label inline-block mb-1 text-gray-700">Adresse courriel</label>
+            <input type="email" id="email" class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-yellow-600 focus:ring-yellow-600 focus:outline-none">
+          </div>
+
+          <div class="flex flex-col pt-4">
+            <label for="password" class="form-label inline-block mb-1 text-gray-700">Mot de passe</label>
+            <input type="password" id="password" class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-yellow-600 focus:ring-yellow-600 focus:outline-none">
+          </div>
+
+          <button type="submit" class="p-2 mt-8 w-full inline-block px-6 py-2.5 bg-yellow-500 text-white font-medium text-md leading-normal uppercase rounded shadow-md hover:bg-yellow-600 hover:shadow-lg focus:bg-yellow-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-800 active:shadow-lg transition duration-150 ease-in-out">Se connecter</button>
+        </form>
+        <div class="text-center pt-12 pb-12">
+          <div>Vous n'avez pas de compte ? <router-link to="/register" class="underline font-semibold">S'inscrire</router-link></div>
+        </div>
       </div>
-      <form class="mt-8 space-y-6" v-on:submit="login" method="POST">
-        <input type="hidden" name="remember" value="true" />
-        <div class="-space-y-px rounded-md shadow-sm">
-          <div>
-            <label for="email" class="sr-only">Adresse courriel</label>
-            <input id="email" name="email" type="email" autocomplete="email" required="" class="focus:outline-none relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Adresse courriel"/>
-          </div>
-          <div>
-            <label for="password" class="sr-only">Mot de passe</label>
-            <input id="password" name="password" type="password" autocomplete="current-password" required="" class="focus:outline-none relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Mot de passe"/>
-          </div>
-        </div>
 
-        <div class="flex items-center justify-between">
-          <div class="flex items-center">
-            <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"/>
-            <label for="remember-me" class="ml-2 block text-sm text-gray-900">Se souvenir</label>
-          </div>
-        </div>
+    </div>
 
-        <div>
-          <button type="submit" class="group focus:outline-none relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Valider</button>
-        </div>
-      </form>
+    <!-- Image Section -->
+    <div class="w-1/2 shadow-2xl">
+      <img class="object-cover w-full h-screen hidden md:block" src="https://source.unsplash.com/IXUM4cJynP0" alt="">
     </div>
   </div>
 </template>

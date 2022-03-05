@@ -2,6 +2,9 @@ const model = require('../model/UserModel')
 const express = require('express')
 const router = express.Router()
 
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
 const passportJWT = require('passport-jwt')
@@ -16,8 +19,7 @@ const jwtOptions = {
 	secretOrKey: secret
 }
 
-passport.use(
-		new JwtStrategy(jwtOptions, async function(payload, next) {
+passport.use(new JwtStrategy(jwtOptions, async function(payload, next) {
 			const user = await model.findAll().then(users => {return users.find(user => user.email === payload.email)})
 
 			if (user) {
@@ -28,12 +30,18 @@ passport.use(
 		})
 )
 
-router.get('/register', (req, res) => {
-	const firstName = 'David';
-	const lastName = 'Pujadas';
-	const email = 'david.pujadas@mail.com'
-	const password = 'password'
-	model.create(firstName, lastName, email, password)
+router.post('/register', async(req, res) => {
+	const firstname = req.body.firstname;
+	const lastname = req.body.lastname;
+	const email = req.body.email;
+	const password = req.body.password;
+	const user = await model.findAll().then(users => { return users.find(user => user.email === email)});
+	if(!user) {
+		const hashedPassword = await bcrypt.hash(password, saltRounds).then(hash => {return hash});
+		model.create(firstname, lastname, email, hashedPassword).then(res.json({exists: false})).catch(e => console.error(e));
+	} else {
+		res.json({exists: true});
+	}
 })
 
 router.post('/login', async(req, res) => {
@@ -48,7 +56,7 @@ router.post('/login', async(req, res) => {
 
 	const user = await model.findAll().then(users => { return users.find(user => user.email === email)});
 
-	if (!user || user.password !== password) {
+	if (!user || await bcrypt.compare(password, user.password) === false) {
 		res.status(401).json({ error: 'Email / password do not match.' })
 		return
 	}

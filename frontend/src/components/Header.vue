@@ -16,7 +16,7 @@
               <router-link class="nav-link p-0 text-gray-500 hover:text-gray-700 focus:text-gray-700" to="/">Accueil</router-link>
             </li>
             <li class="nav-item p-2">
-              <router-link class="nav-link p-0 text-gray-500 hover:text-gray-700 focus:text-gray-700" to="/">Nouvelle recette</router-link>
+              <router-link class="nav-link p-0 text-gray-500 hover:text-gray-700 focus:text-gray-700" :to="{ name: 'CreateRecipe'}">Nouvelle recette</router-link>
             </li>
           </ul>
         </div>

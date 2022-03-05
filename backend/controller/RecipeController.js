@@ -2,9 +2,15 @@ const model = require('../model/RecipeModel')
 const express = require('express')
 const router = express.Router()
 
-router.get('/', async (req, res) => {
-	res.send(await model.findAll().then(e => {return e}))
-})
+router.route('/')
+	//findAll
+	.get(async (req, res) => {
+		res.send(await model.findAll().then(e => {return e}))
+	})
+	//create
+	.post(async (req, res) => {
+		await model.create(req.body).then(e => console.log(e)).then(e => console.error(e));
+	});
 
 router.route("/:id")
 	//findOne

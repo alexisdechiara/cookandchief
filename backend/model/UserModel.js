@@ -10,6 +10,6 @@ module.exports = {
 	},
 
 	async create(firstName, lastName, email, password) {
-		http.post('accounts', {firstname: firstName, lastname: lastName, email: email, password: password})
+		return http.post('accounts', {"firstname": firstName, "lastname": lastName, "email": email, "password": password})
 	}
 }

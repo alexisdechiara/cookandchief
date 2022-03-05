@@ -1,24 +1,24 @@
- const http = require('./main.js')
+const http = require('./main.js')
 
- module.exports = {
+module.exports = {
 	async findAll() {
-		return await http.get('recipes').then(res => {return res.data}).catch(e => console.error(e))
+		return await http.get('recipes').then(e => {return e.data}).catch(e => console.error(e))
 	},
 
 	async findOne(id) {
-		return await http.get('recipes/' + id).then(res => {return res.data}).catch((e => console.error(e)))
+		return await http.get('recipes/' + id).then(e => {return e.data}).catch((e => console.error(e)))
 	},
 
 	async remove(id) {
-		await http.delete('recipes/' + id).then(e => console.log("suppression de " + e.body.result)).catch(e => console.error(e))
+		await http.delete('recipes/' + id).then(e => console.log("suppesion de " + e.body.name)).catch(e => console.error(e))
 	},
 
 	async update(id, data) {
-		await http.put('recipes/'+ id, data).then(e => console.log("modification de " + e.body.result)).catch(e => console.error("erreur lors de la modification"))
+		await http.put('recipes/'+ id, data).then(e => console.log("modification de " + e.body.name)).catch(e => console.error(e))
 	},
 
 	async create(data) {
-		//TODO
+		return await http.post('recipes', data).then(e => console.log("création de " + e.body.name)).catch(e => console.error(e))
 	}
 }
 
