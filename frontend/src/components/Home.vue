@@ -11,7 +11,7 @@
             <div class="flex flex-row place-items-center mb-3">
               <span class="flex flex-grow uppercase font-semibold">Affichage</span>
               <div class="w-32">
-                <select v-model="nbRecipes" v-on:change="load()" class="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                <select v-model="nbRecipes" v-on:change="load()" class="form-select cursor-pointer appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none">
                   <option selected value="3">3 recettes</option>
                   <option value="5">5 recettes</option>
                   <option value="10">10 recettes</option>
