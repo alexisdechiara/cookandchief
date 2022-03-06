@@ -1,5 +1,5 @@
 <template lang="html">
-  <footer id="footer">
+  <footer id="footerComponent" v-if="isConnected()">
     <footer class="bg-gray-200 text-center lg:text-left">
       <div class="p-1 text-center text-gray-700">
         © 2021 Copyright:
@@ -14,5 +14,10 @@
   export default  {
     name: 'footer',
     props: [],
+    methods: {
+      isConnected() {
+        return this.$store.getters["jwt"] != null;
+      },
+    }
 }
 </script>
