@@ -31,7 +31,7 @@ La sécurité étant réalisée au niveau front, il n'y pas de vérifications de
 ## Front-end
 
 **Instruction :** [https://github.com/Tyki/VueJS-Formation](https://github.com/Tyki/VueJS-Formation/blob/master/Sujet%20VUEJS%20Licence%20APIDAE%202021-2022.pdf) <br>
-**Résultat :** [https://cookandchief.herokuapp.com/](https://cookandchief.herokuapp.com/)
+**Résultat :** [https://cookandchief.netlify.app/](https://cookandchief.netlify.app/)
 
 ### Installation et execution
 
